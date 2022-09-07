@@ -4,15 +4,15 @@ const { Users } = require('../services/users.services')
 const router = express.Router()
 const service = new Users()
 
-router.get('/', (req, res) => {
-  const users = service.getAll()
+router.get('/', async (req, res) => {
+  const users = await service.getAll()
 
   res.json(users)
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const { id } = req.params
-  const user = service.getOne(id)
+  const user = await service.getOne(id)
 
   if (!user) {
     res.status(404).send('Not found')
@@ -22,26 +22,36 @@ router.get('/:id', (req, res) => {
   res.json(user)
 })
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const body = req.body
-  service.create(body)
+  await service.create(body)
 
   res.json(body)
 })
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', async (req, res) => {
   const { id } = req.params
   const body = req.body
-  const user = service.update(id, body)
 
-  res.json(user)
+  try {
+    const user = await service.update(id, body)
+
+    res.status(200).json(user)
+  } catch (error) {
+    res.status(404).send(error.message)
+  }
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   const { id } = req.params
-  service.delete(id)
 
-  res.status(200).json('Deleted')
+  try {
+    await service.delete(id)
+
+    res.status(200).json('Deleted')
+  } catch (error) {
+    res.status(404).send(error.message)
+  }
 })
 
 module.exports = { usersRouter: router }

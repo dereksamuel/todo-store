@@ -5,11 +5,16 @@ class Schema {
     this.data = data
   }
 
-  getAll() {
-    return this.data
+  async getAll() {
+    return new Promise((res) => {
+      const timeout = setTimeout(() => {
+        res(this.data);
+        clearTimeout(timeout);
+      }, 2000);
+    })
   }
 
-  getOne(id) {
+  async getOne(id) {
     if (!id) {
       // eslint-disable-next-line no-console
       console.error('The id is necessary')
@@ -19,7 +24,7 @@ class Schema {
     return this.data.find((item) => item.id === id)
   }
 
-  create(data) {
+  async create(data) {
     const newProduct = {
       id: faker.datatype.uuid(),
       ...data
@@ -29,7 +34,7 @@ class Schema {
     return
   }
 
-  update(id, changes) {
+  async update(id, changes) {
     const index = this.data.findIndex((item) => item.id === id)
 
     if (index === -1) {
@@ -43,7 +48,7 @@ class Schema {
     return this.data[index]
   }
 
-  delete(id) {
+  async delete(id) {
     const index = this.data.findIndex((item) => item.id === id)
 
     if (index === -1) {
