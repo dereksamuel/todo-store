@@ -35,11 +35,13 @@ class Schema {
     return this.data[index]
   }
 
-  getOne(id, type = "find") {
+  getOne(id, type = "find", errorMessageNotFound) {
     const dataFound = this.data[type]((item) => item.id === id);
 
-    if (dataFound === -1 || !dataFound) {
-      throw boom.notFound('Object not found');
+    console.log(errorMessageNotFound);
+
+    if (dataFound === -1 || (!dataFound && dataFound !== 0)) {
+      throw boom.notFound(errorMessageNotFound || 'Object not found');
     }
 
     if (dataFound.isBlock) {

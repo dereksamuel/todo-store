@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 const id = Joi.string().uuid();
-const name = Joi.string().case("lower");
+const name = Joi.string();
 const kind_of = Joi.string().valid("winter", "summer", "spring", "fall");
 const description = Joi.string();
 const src_image = Joi.string().dataUri();
@@ -24,6 +24,19 @@ const createProductSchema = Joi.object({
 });
 
 const updateProductSchema = Joi.object({
+  name,
+  kind_of,
+  ammount,
+  price,
+  isBlock,
+  location,
+  description,
+  src_image,
+  offert,
+});
+
+const createProductUserSchema = Joi.object({
+  id,
   name: name.required(),
   kind_of: kind_of.required(),
   ammount: ammount.required(),
@@ -42,5 +55,7 @@ const getProductSchema = Joi.object({
 module.exports = {
   createProductSchema,
   updateProductSchema,
-  getProductSchema
+  getProductSchema,
+  createProductUserSchema,
+  id
 }
