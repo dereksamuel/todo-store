@@ -38,8 +38,6 @@ class Schema {
   getOne(id, type = "find", errorMessageNotFound) {
     const dataFound = this.data[type]((item) => item.id === id);
 
-    console.log(errorMessageNotFound);
-
     if (dataFound === -1 || (!dataFound && dataFound !== 0)) {
       throw boom.notFound(errorMessageNotFound || 'Object not found');
     }
