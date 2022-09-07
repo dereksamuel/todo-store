@@ -1,3 +1,4 @@
+const { Boom } = require("@hapi/boom");
 const faker = require("faker");
 const { Schema } = require("./schema.services");
 
@@ -39,6 +40,10 @@ class Seassons extends Schema {
 
     if (productId) {
       return seasson.products.find((product) => product.id === productId)
+    }
+
+    if (!seasson) {
+      throw Boom.notFound('Object not found');
     }
 
     return seasson

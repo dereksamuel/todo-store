@@ -9,17 +9,17 @@ router.get('/', async (req, res) => {
   res.status(200).json(seassons)
 })
 
-router.get('/:seassonId', async (req, res) => {
+router.get('/:seassonId', async (req, res, next) => {
   const { seassonId } = req.params
   const { productId } = req.query
 
-  const seasson = await service.getOne(seassonId, +productId)
+  try {
+    const seasson = await service.getOne(seassonId, +productId)
 
-  if (!seasson) {
-    res.status(404).send('Not found')
+    res.status(200).send(seasson)
+  } catch (error) {
+    next(error)
   }
-
-  res.status(200).json(seasson)
 })
 
 router.post('/', async (req, res) => {
@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
   res.json(body)
 })
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
   const { id } = req.params
   const body = req.body
 
@@ -38,11 +38,11 @@ router.patch('/:id', async (req, res) => {
 
     res.status(200).json(seasson)
   } catch (error) {
-    res.status(404).send(error.message)
+    next(error)
   }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
   const { id } = req.params
 
   try {
@@ -50,7 +50,7 @@ router.delete('/:id', async (req, res) => {
 
     res.status(200).json('Deleted')
   } catch (error) {
-    res.status(404).send(error.message)
+    next(error)
   }
 })
 

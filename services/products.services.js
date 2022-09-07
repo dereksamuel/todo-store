@@ -25,7 +25,8 @@ function initialStates() {
       ammount: +faker.finance.amount(),
       price: +faker.commerce.price(),
       offert: Math.trunc(Math.ceil(Math.random() * 70)),
-      location: faker.address.country()
+      location: faker.address.country(),
+      isBlock: faker.datatype.boolean()
     })
   }
 

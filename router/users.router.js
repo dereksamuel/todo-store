@@ -10,16 +10,15 @@ router.get('/', async (req, res) => {
   res.json(users)
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
   const { id } = req.params
-  const user = await service.getOne(id)
 
-  if (!user) {
-    res.status(404).send('Not found')
-    return
+  try {
+    const user = await service.getOne(id)
+    res.status(200).send(user)
+  } catch (error) {
+    next(error)
   }
-
-  res.json(user)
 })
 
 router.post('/', async (req, res) => {
@@ -29,7 +28,7 @@ router.post('/', async (req, res) => {
   res.json(body)
 })
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
   const { id } = req.params
   const body = req.body
 
@@ -38,11 +37,11 @@ router.patch('/:id', async (req, res) => {
 
     res.status(200).json(user)
   } catch (error) {
-    res.status(404).send(error.message)
+    next(error)
   }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
   const { id } = req.params
 
   try {
@@ -50,7 +49,7 @@ router.delete('/:id', async (req, res) => {
 
     res.status(200).json('Deleted')
   } catch (error) {
-    res.status(404).send(error.message)
+    next(error)
   }
 })
 

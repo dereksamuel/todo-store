@@ -1,3 +1,4 @@
+const boom = require("@hapi/boom");
 const faker = require("faker");
 
 class Schema {
@@ -14,16 +15,6 @@ class Schema {
     })
   }
 
-  async getOne(id) {
-    if (!id) {
-      // eslint-disable-next-line no-console
-      console.error('The id is necessary')
-      return;
-    }
-
-    return this.data.find((item) => item.id === id)
-  }
-
   async create(data) {
     const newProduct = {
       id: faker.datatype.uuid(),
@@ -35,11 +26,7 @@ class Schema {
   }
 
   async update(id, changes) {
-    const index = this.data.findIndex((item) => item.id === id)
-
-    if (index === -1) {
-      throw new Error('Object not found')
-    }
+    const index = this.getOne(id, "findIndex");
 
     this.data[index] = {
       ...this.data[index],
@@ -48,13 +35,22 @@ class Schema {
     return this.data[index]
   }
 
-  async delete(id) {
-    const index = this.data.findIndex((item) => item.id === id)
+  getOne(id, type = "find") {
+    const dataFound = this.data[type]((item) => item.id === id);
 
-    if (index === -1) {
-      throw new Error('Object not found')
+    if (dataFound === -1 || !dataFound) {
+      throw boom.notFound('Object not found');
     }
 
+    if (dataFound.isBlock) {
+      throw boom.conflict('Object is blocked');
+    }
+
+    return dataFound;
+  }
+
+  async delete(id) {
+    const index = this.getOne(id, "findIndex");
     this.data.splice(index, 1)
     return id
   }
