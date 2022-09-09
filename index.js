@@ -9,13 +9,12 @@ const app = express()
 const port = process.env.PORT || 3400
 const whitelist = [
   "http://localhost:8080",
-  "http://localhost:8083",
-  "http://localhost:3800"
+  "http://localhost:8083"
 ];
 const options = {
   origin: (origin, cb) => {
-    if (whitelist.includes(origin)) {
-      cb(null, true); //FIXME: Fix this later, CORS ERROR TO ORIGIN-SELF
+    if (whitelist.includes(origin) || !origin) {
+      cb(null, true);
     } else {
       cb(new Error("You are not authorized"));
     }
