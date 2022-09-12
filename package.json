@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "lint": "eslint ./ --fix"
+    "lint": "eslint ./ --fix",
+    "up:docker": "sudo docker-compose up -d",
+    "ps:docker": "sudo docker-compose ps",
+    "down:docker": "sudo docker-compose down",
+    "idc:docker": "sudo docker ps",
+    "by_id:docker": "sudo docker inspect"
   },
   "author": "Derek Paul",
   "license": "MIT",
