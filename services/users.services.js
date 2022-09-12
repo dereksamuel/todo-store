@@ -20,37 +20,37 @@ function initialStates() {
 
 class Users extends Schema {
   constructor(productsService) {
-    const users = initialStates();
-    super(users);
+    const users = initialStates()
+    super(users)
 
-    this.productsService = productsService;
+    this.productsService = productsService
   }
 
   async update(id, changes) {
-    const index = this.getOne(id, "findIndex");
-    const usersPromises = [];
+    const index = this.getOne(id, 'findIndex')
+    const usersPromises = []
 
     const functionality = () => {
       this.data[index] = {
         ...this.data[index],
         ...changes
-      };
-      return this.data[index];
-    };
+      }
+      return this.data[index]
+    }
 
     if (changes.products && changes.products.length) {
       changes.products.map((id) => {
-        usersPromises.push(this.productsService.getOne(id, "find", "Your products does'nt exist"));
+        usersPromises.push(this.productsService.getOne(id, 'find', "Your products does'nt exist"))
       })
 
       try {
-        await Promise.all(usersPromises);
-        return functionality();
+        await Promise.all(usersPromises)
+        return functionality()
       } catch (error) {
-        throw boom.badRequest("Your products does'nt exist");
+        throw boom.badRequest("Your products does'nt exist")
       }
     } else {
-      return functionality();
+      return functionality()
     }
   }
 }

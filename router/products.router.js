@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/:id',
-  validatorHandler(getProductSchema, "params"),
+  validatorHandler(getProductSchema, 'params'),
   async (req, res, next) => {
   const { id } = req.params
 
@@ -26,7 +26,7 @@ router.get('/:id',
 })
 
 router.post('/',
-  validatorHandler(createProductSchema, "body"),
+  validatorHandler(createProductSchema, 'body'),
   async (req, res) => {
   const body = req.body
   await global.productsService.create(body)
@@ -35,8 +35,8 @@ router.post('/',
 })
 
 router.patch('/:id',
-  validatorHandler(getProductSchema, "params"),
-  validatorHandler(updateProductSchema, "body"),
+  validatorHandler(getProductSchema, 'params'),
+  validatorHandler(updateProductSchema, 'body'),
   async (req, res, next) => {
   const { id } = req.params
   const body = req.body

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "lint": "eslint --fix"
+    "lint": "eslint ./ --fix"
   },
   "author": "Derek Paul",
   "license": "MIT",

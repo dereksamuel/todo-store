@@ -1,5 +1,5 @@
-const boom = require("@hapi/boom");
-const faker = require("faker");
+const boom = require('@hapi/boom')
+const faker = require('faker')
 
 class Schema {
   constructor(data) {
@@ -9,9 +9,9 @@ class Schema {
   async getAll() {
     return new Promise((res) => {
       const timeout = setTimeout(() => {
-        res(this.data);
-        clearTimeout(timeout);
-      }, 2000);
+        res(this.data)
+        clearTimeout(timeout)
+      }, 2000)
     })
   }
 
@@ -26,7 +26,7 @@ class Schema {
   }
 
   async update(id, changes) {
-    const index = this.getOne(id, "findIndex");
+    const index = this.getOne(id, 'findIndex')
 
     this.data[index] = {
       ...this.data[index],
@@ -35,22 +35,22 @@ class Schema {
     return this.data[index]
   }
 
-  getOne(id, type = "find", errorMessageNotFound) {
-    const dataFound = this.data[type]((item) => item.id === id);
+  getOne(id, type = 'find', errorMessageNotFound) {
+    const dataFound = this.data[type]((item) => item.id === id)
 
     if (dataFound === -1 || (!dataFound && dataFound !== 0)) {
-      throw boom.notFound(errorMessageNotFound || 'Object not found');
+      throw boom.notFound(errorMessageNotFound || 'Object not found')
     }
 
     if (dataFound.isBlock) {
-      throw boom.conflict('Object is blocked');
+      throw boom.conflict('Object is blocked')
     }
 
-    return dataFound;
+    return dataFound
   }
 
   async delete(id) {
-    const index = this.getOne(id, "findIndex");
+    const index = this.getOne(id, 'findIndex')
     this.data.splice(index, 1)
     return id
   }

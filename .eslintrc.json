@@ -12,6 +12,8 @@
     "jest": true
   },
   "rules": {
-    "no-console": "warn"
+    "no-console": "warn",
+    "quotes": [2, "single", "avoid-escape"],
+    "semi": [2, "never"]
   }
 }
