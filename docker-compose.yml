@@ -1,4 +1,20 @@
 version: '3.9'
 
 services:
-  
+  postgres_dev:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=todo_store
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=admin123
+    ports:
+      - 5433:5433
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+
+  pg_admin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@mail.com
+
+# volumes for do persistent the DATA
